@@ -1,0 +1,28 @@
+curl -XDELETE 'http://localhost:9200/auth_logs'
+
+
+curl -XPOST 'http://localhost:9200/auth_logs/_delete_by_query' -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "match_all": {}
+  }
+}
+'
+
+
+curl -XPUT 'http://localhost:9200/auth_logs' -H 'Content-Type: application/json' -d'
+{
+  "mappings": {
+    "properties": {
+      "username": { "type": "keyword" },
+      "success": { "type": "boolean" },
+      "user_agent": { "type": "text" },
+      "origin_ip": { "type": "ip" },
+      "response_time": { "type": "float" },
+      "status_code": { "type": "integer" },
+      "rolling_avg_response_time": { "type": "float" },
+      "anomaly_detected": { "type": "boolean" }
+    }
+  }
+}
+'
